@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import ApplicationModel
+from serializer_validate.validators import CompanyForeignKeyValidator
 
 
 def multiple_of_ten(value):
@@ -15,7 +16,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
         extra_kwargs = {
-            'number': {'validators': [multiple_of_ten]}
+            'number': {'validators': [CompanyForeignKeyValidator(lambda company: company.agents)]}
         }
 
 
