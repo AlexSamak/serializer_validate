@@ -30,8 +30,7 @@ class ForeignKeyValidator:
     message = _('You cannot set value: {value}.')
     requires_context = True
 
-    def __init__(self, qs_getter: Callable,
-                 context_getter=lambda user: user):
+    def __init__(self, qs_getter: Callable):
         """
         Args:
             qs_getter (Callable): lambda-выражение. Функция вернет queryset
@@ -39,16 +38,14 @@ class ForeignKeyValidator:
             она нужна для переопределения.
         """
         self.qs_getter = qs_getter
-        self.context_getter = context_getter
 
     def __call__(self, value, serializer_field):
         user = serializer_field.context['request'].user
-        context = self.context_getter(user)
 
-        queryset = self.qs_getter(context)
-        queryset = qs_filter(queryset, pk=value.id)
+        cur_comp = self.qs_getter(user)
+        print(f'{cur_comp} -- {value}')
 
-        if not qs_exists(queryset):
+        if value.id != cur_comp.id:
             raise ValidationError(
                 self.message.format(value=value),
                 code='foreign-key'
@@ -71,4 +68,5 @@ class CompanyForeignKeyValidator(ForeignKeyValidator):
 
     """
     def __init__(self, qs_getter: Callable):
-        super().__init__(qs_getter, lambda user: user.profile.current_company)
+        print(qs_getter)
+        super().__init__(qs_getter)

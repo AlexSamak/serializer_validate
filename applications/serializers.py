@@ -16,7 +16,8 @@ class ApplicationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
         extra_kwargs = {
-            'number': {'validators': [CompanyForeignKeyValidator(lambda company: company.agents)]}
+            'company': {'validators': [CompanyForeignKeyValidator(
+                lambda user: user.profile.current_company)]}
         }
 
 
