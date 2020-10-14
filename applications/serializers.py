@@ -1,4 +1,6 @@
 from rest_framework import serializers
+
+from serializer_validate.serializers import CurrentCompanyDefault
 from .models import ApplicationModel
 from serializer_validate.validators import CompanyForeignKeyValidator
 
@@ -11,6 +13,10 @@ def multiple_of_ten(value):
 
 
 class ApplicationSerializer(serializers.ModelSerializer):
+    # company = serializers.HiddenField(
+    #     default=CurrentCompanyDefault()
+    # )
+
     class Meta:
         model = ApplicationModel
         fields = '__all__'
