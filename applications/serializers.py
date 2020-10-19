@@ -5,11 +5,11 @@ from .models import ApplicationModel
 from serializer_validate.validators import CompanyForeignKeyValidator
 
 
-def multiple_of_ten(value):
-    print(value)
-    if value != 1:
-        raise serializers.ValidationError("Number the bad !!!")
-    return value
+# def multiple_of_ten(value):
+#     print(value)
+#     if value != 1:
+#         raise serializers.ValidationError("Number the bad !!!")
+#     return value
 
 
 class ApplicationSerializer(serializers.ModelSerializer):
